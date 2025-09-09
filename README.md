@@ -39,3 +39,13 @@ const age = 20;
 console.log(`Hello ${name}, age ${age}`);
 pgsql
 Copy code
+. Template Literals (ES6)
+
+Use backticks ` with ${} for interpolation.
+
+Support multiline strings:
+
+const name = "Anika";
+const age = 20;
+console.log(`Hello ${name}, age ${age}`);
+
