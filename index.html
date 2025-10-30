@@ -10,30 +10,71 @@
 
 
     <!-- Navbar -->
-    <nav class="bg-green-700 text-white p-4 flex justify-between items-center">
-        <div class="text-2xl font-bold">Green Earth</div>
-        <div class="space-x-6">
-            <a href="#" class="hover:text-green-200">About</a>
-            <a href="#" class="hover:text-green-200">Gallery</a>
-            <a href="#" class="hover:text-green-200">Plant a Tree</a>
-        </div>
+  <nav class="bg-green-700 text-white p-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+  
+      <!-- Logo -->
+      <div class="text-2xl font-bold">Green Earth</div>
+  
+      <!-- Menu button (for mobile) -->
+      <button id="menu-btn" class="md:hidden flex items-center focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+  
+      <!-- Nav links -->
+      <div id="menu" class="hidden md:flex md:space-x-6 items-center">
+        <a href="#" class="hover:text-green-200">About</a>
+        <a href="#" class="hover:text-green-200">Gallery</a>
+        <a href="#" class="hover:text-green-200">Plant a Tree</a>
         <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-            Plant a Tree
+          Plant a Tree
         </button>
-    </nav>
+      </div>
+  
+    </div>
+  
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden flex-col space-y-3 mt-3 md:hidden">
+      <a href="#" class="block hover:text-green-200">About</a>
+      <a href="#" class="block hover:text-green-200">Gallery</a>
+      <a href="#" class="block hover:text-green-200">Plant a Tree</a>
+      <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
+        Plant a Tree
+      </button>
+    </div>
+  </nav>
 
-    <!-- Hero Section -->
-    <header class="bg-green-100 py-16 flex justify-center items-center relative overflow-hidden">
-        <img src="./assets/hero-leaf1.png" alt="Leaf" class="absolute left-0 top-1/2 transform -translate-y-1/2 opacity-75 w-[300px]">
-        <div class="text-center z-10">
-            <h1 class="text-5xl font-bold text-green-800 mb-4">Plant a Tree, Grow a Future</h1>
-            <p class="text-xl text-gray-700 mb-8">Join our mission to plant 1 million trees and make the Earth greener for future generations.</p>
-            <button class="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold py-3 px-8 rounded-full shadow-lg">
-                Get Involved
-            </button>
-        </div>
-        <img src="./assets/hero-leaf2.png" alt="Leaf" class="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-75 w-[300px]">
-    </header>
+
+  <!-- Hero Section -->
+  <header class="relative bg-green-100 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6 py-20 flex flex-col items-center text-center md:text-center relative">
+  
+      <!-- Left decorative leaf -->
+      <img src="./assets/hero-leaf1.png" alt="Leaf"
+        class="absolute left-0 top-1/2 transform -translate-y-1/2 opacity-50 w-32 sm:w-48 md:w-64 lg:w-80 pointer-events-none select-none" />
+  
+      <!-- Content -->
+      <div class="z-10 max-w-3xl">
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-green-800 mb-6 leading-tight">
+          Plant a Tree, Grow a Future
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl text-gray-700 mb-8">
+          Join our mission to plant 1 million trees and make the Earth greener for future generations.
+        </p>
+        <button
+          class="bg-yellow-400 hover:bg-yellow-500 text-green-900 font-bold py-3 px-8 rounded-full shadow-lg transition duration-300">
+          Get Involved
+        </button>
+      </div>
+  
+      <!-- Right decorative leaf -->
+      <img src="./assets/hero-leaf2.png" alt="Leaf"
+        class="absolute right-0 top-1/2 transform -translate-y-1/2 opacity-50 w-32 sm:w-48 md:w-64 lg:w-80 pointer-events-none select-none" />
+    </div>
+  </header>
+
 
     <!-- Main Content -->
     <main class="container mx-auto py-12 px-4">

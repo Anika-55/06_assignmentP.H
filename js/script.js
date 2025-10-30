@@ -1,3 +1,10 @@
+const menuBtn = document.getElementById("menu-btn");
+const mobileMenu = document.getElementById("mobile-menu");
+
+menuBtn.addEventListener("click", () => {
+  mobileMenu.classList.toggle("hidden");
+});
+
 const categoryList = document.getElementById("category-list");
 const plantList = document.getElementById("plant-list");
 const cartItems = document.getElementById("cart-items");
@@ -5,30 +12,50 @@ const totalAmount = document.getElementById("total-amount");
 
 let allPlants = [];
 let cart = [];
+let activeCategory = "All Plants"; // 🌿 Track active category
 
-// ✅ Load all plants from API
+// ✅ Load all plants from API with loading spinner
 async function loadPlants() {
   try {
-    const res = await fetch("https://openapi.programming-hero.com/api/plants"); // 👈 replace with your actual endpoint
+    showSpinner(); // 🌀 Show spinner
+
+    const res = await fetch("https://openapi.programming-hero.com/api/plants");
     const data = await res.json();
     allPlants = data.plants;
 
     loadCategories();
-    displayPlants(allPlants); // show all plants initially
+    displayPlants(allPlants);
+
   } catch (error) {
     console.error("Error loading plants:", error);
     plantList.innerHTML = `<p class="col-span-3 text-center text-red-500">Failed to load plants</p>`;
+  } finally {
+    hideSpinner(); // 🌀 Hide spinner
   }
 }
 
-// ✅ Load unique categories dynamically
+// ✅ Show spinner
+function showSpinner() {
+  plantList.innerHTML = `
+    <div class="col-span-full flex justify-center py-10">
+      <div class="w-10 h-10 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  `;
+}
+
+// ✅ Hide spinner (will be done automatically when displayPlants runs)
+
+
+
 function loadCategories() {
   const categories = [...new Set(allPlants.map((p) => p.category))];
 
   categoryList.innerHTML = `
     <li>
-      <button onclick="displayPlants(allPlants)" 
-        class="block w-full text-left py-2 px-3 text-gray-700 hover:bg-green-100 rounded-md font-semibold">
+      <button 
+        onclick="setActiveCategory('All Plants'); displayPlants(allPlants)" 
+        class="block w-full text-left py-2 px-3 rounded-md font-semibold category-btn"
+      >
         All Plants
       </button>
     </li>
@@ -38,23 +65,42 @@ function loadCategories() {
     const li = document.createElement("li");
     li.innerHTML = `
       <button 
-        onclick="filterByCategory('${category}')"
-        class="block w-full text-left py-2 px-3 text-gray-700 hover:bg-green-100 rounded-md"
+        onclick="setActiveCategory('${category}'); filterByCategory('${category}')" 
+        class="block w-full text-left py-2 px-3 rounded-md category-btn"
       >
         ${category}
       </button>
     `;
     categoryList.appendChild(li);
   });
+
+  updateActiveButton(); 
 }
 
-// ✅ Filter plants by category
+function setActiveCategory(category) {
+  activeCategory = category;
+  updateActiveButton();
+}
+
+function updateActiveButton() {
+  const buttons = document.querySelectorAll(".category-btn");
+  buttons.forEach((btn) => {
+    if (btn.textContent.trim() === activeCategory) {
+      btn.classList.add("bg-green-600", "text-white", "font-semibold");
+      btn.classList.remove("bg-green-100", "text-gray-700");
+    } else {
+      btn.classList.remove("bg-green-600", "text-white");
+      btn.classList.add("text-gray-700", "hover:bg-green-100");
+    }
+  });
+}
+
 function filterByCategory(category) {
   const filtered = allPlants.filter((plant) => plant.category === category);
   displayPlants(filtered);
 }
 
-// ✅ Display plants in cards
+
 function displayPlants(plants) {
   if (!plants.length) {
     plantList.innerHTML = `<p class="col-span-full text-center text-gray-500">No plants found.</p>`;
@@ -64,7 +110,7 @@ function displayPlants(plants) {
   plantList.innerHTML = plants
     .map(
       (p) => `
-      <div class=" rounded-lg shadow-md overflow-hidden h-63 hover:shadow-lg transition-shadow">
+      <div class="rounded-lg shadow-md overflow-hidden h-63 hover:shadow-lg transition-shadow">
         <img src="${p.image}" alt="${p.name}" class="w-full h-40 object-cover">
         <div class="p-4">
           <h4 class="text-lg font-semibold text-gray-800">${p.name}</h4>
@@ -83,7 +129,6 @@ function displayPlants(plants) {
     .join("");
 }
 
-// ✅ Add to cart
 function addToCart(id) {
   const plant = allPlants.find((p) => p.id === id);
   const existing = cart.find((item) => item.id === id);
@@ -97,13 +142,10 @@ function addToCart(id) {
   updateCart();
 }
 
-// ✅ Remove from cart
 function removeFromCart(id) {
   cart = cart.filter((item) => item.id !== id);
   updateCart();
 }
-
-// ✅ Update cart UI
 function updateCart() {
   cartItems.innerHTML = cart
     .map(
